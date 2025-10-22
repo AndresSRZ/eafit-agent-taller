@@ -1,6 +1,10 @@
+import sys, os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
 import streamlit as st
 import pandas as pd
-from memory_manager import supabase
+from memory_manager import supabase  # Reutilizamos el cliente de Supabase
+
 
 def load_all_data():
     """Carga todos los chats de la base de datos."""
@@ -53,4 +57,5 @@ else:
 # Botón para refrescar
 if st.button("🔄 Refrescar Datos"):
     st.rerun()
+
 
