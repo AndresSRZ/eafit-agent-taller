@@ -1,21 +1,14 @@
-import sys, os
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-
 import streamlit as st
 import pandas as pd
-from eafit_agent_taller.memory_manager import supabase
-
+from memory_manager import supabase  # Reutilizamos el cliente de Supabase
 
 def load_all_data():
     """Carga todos los chats de la base de datos."""
     try:
-        response = (
-            supabase
-            .table("chat_history")
-            .select("*")
-            .order("timestamp", desc=True)
+        response = supabase.table('chat_history') \
+            .select('*') \
+            .order('timestamp', desc=True) \
             .execute()
-        )
         return pd.DataFrame(response.data)
     except Exception as e:
         st.error(f"Error al cargar datos: {e}")
@@ -23,7 +16,7 @@ def load_all_data():
 
 # --- Configuración de la página ---
 st.set_page_config(page_title="Dashboard de Agente IA", layout="wide")
-st.title("📊 Monitoring Dashboard del Agente IA")
+st.title("Monitoring Dashboard del Agente IA")
 
 # --- Cuerpo de la App ---
 df = load_all_data()
@@ -31,23 +24,23 @@ df = load_all_data()
 if df.empty:
     st.warning("Aún no hay conversaciones en la base de datos.")
 else:
-    st.header("💬 Visor de Conversaciones")
+    st.header("Visor de Conversaciones")
 
     # 1. Filtro por Usuario
-    all_users = df["user_id"].unique()
+    all_users = df['user_id'].unique()
     selected_user = st.selectbox("Selecciona un User ID para ver su chat:", all_users)
 
     if selected_user:
         st.subheader(f"Historial de Chat para: {selected_user}")
 
         # Filtrar DF para ese usuario y ordenar por tiempo
-        user_chat_df = df[df["user_id"] == selected_user].sort_values(by="timestamp")
+        user_chat_df = df[df['user_id'] == selected_user].sort_values(by="timestamp")
 
-        # Mostrar el chat en formato conversacional
-        for _, row in user_chat_df.iterrows():
-            with st.chat_message(name=row["sender_role"]):
-                st.write(f"**{row['sender_role'].capitalize()}:**")
-                st.write(row["message"])
+        # Mostrar el chat en formato de conversación
+        for index, row in user_chat_df.iterrows():
+            with st.chat_message(name=row['sender_role']):
+                st.write(f"**{row['sender_role']}:**")
+                st.write(row['message'])
                 st.caption(f"_{row['timestamp']}_")
 
     # 2. Vista de Datos Crudos
@@ -55,8 +48,5 @@ else:
         st.dataframe(df)
 
 # Botón para refrescar
-if st.button("🔄 Refrescar Datos"):
+if st.button("Refrescar Datos"):
     st.rerun()
-
-
-
