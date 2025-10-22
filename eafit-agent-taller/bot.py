@@ -13,7 +13,7 @@ TELEGRAM_TOKEN = os.getenv("8227831671:AAGy2fSrz4-IJmjarmY5LbEuogl5LcqtsGY")
 
 # Función para el comando /start
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("¡Hola! Soy tu agente IA. Pregúntame algo.")
+    await update.message.reply_text('¡Hola! Soy tu agente IA. Pregúntame algo.')
 
 # Función principal que maneja los mensajes
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -21,28 +21,28 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_message = update.message.text
 
     # 1. Guardar el mensaje del usuario en la memoria
-    add_message_to_history(user_id, "user", user_message)
+    add_message_to_history(user_id, 'user', user_message)
 
     # 2. Obtener el historial de chat (incluyendo el nuevo mensaje)
     chat_history = get_chat_history(user_id)
 
-    # 3. Invocar al agente (el "cerebro")
+    # 3. Invocar al agente (el cerebro)
     try:
-        # Mostrar estado "escribiendo..."
+        # Esto puede tardar unos segundos; Telegram puede mostrar "escribiendo..."
         await context.bot.send_chat_action(
             chat_id=update.effective_chat.id,
-            action="typing"
+            action='typing'
         )
 
         response = invoke_agent(user_message, chat_history)
-        ai_message = response["output"]
+        ai_message = response['output']
 
     except Exception as e:
         print(f"Error invocando al agente: {e}")
         ai_message = "Lo siento, tuve un error al procesar tu solicitud."
 
     # 4. Guardar la respuesta de la IA en la memoria
-    add_message_to_history(user_id, "ai", ai_message)
+    add_message_to_history(user_id, 'ai', ai_message)
 
     # 5. Enviar la respuesta al usuario
     await update.message.reply_text(ai_message)
@@ -55,8 +55,5 @@ def main():
     application.add_handler(CommandHandler("start", start))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
 
-    # Ejecutar el bot
+    # Iniciar el bot
     application.run_polling()
-
-if __name__ == "__main__":
-    main()
