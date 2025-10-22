@@ -3,7 +3,7 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 import streamlit as st
 import pandas as pd
-from memory_manager import supabase  # Reutilizamos el cliente de Supabase
+from eafit_agent_taller.memory_manager import supabase
 
 
 def load_all_data():
@@ -57,5 +57,6 @@ else:
 # Botón para refrescar
 if st.button("🔄 Refrescar Datos"):
     st.rerun()
+
 
 
