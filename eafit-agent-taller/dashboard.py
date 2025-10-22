@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from eafit_agent_taller.memory_manager import supabase
+from memory_manager import supabase
 
 def load_all_data():
     """Carga todos los chats de la base de datos."""
