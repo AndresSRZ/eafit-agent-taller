@@ -7,7 +7,7 @@ SUPABASE_URL = os.getenv("https://qtsbwvbxgdkaynkwrwcl.supabase.co")
 SUPABASE_KEY = os.getenv("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF0c2J3dmJ4Z2RrYXlua3dyd2NsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjExNDEzODgsImV4cCI6MjA3NjcxNzM4OH0.g0-1p9FLmgrEJyX7i81M0V7lc1uPshKfyfV4UOKcrY0")
 
 # Inicializar cliente de Supabase
-supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+supabase: Client = create_client(https://qtsbwvbxgdkaynkwrwcl.supabase.co, eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF0c2J3dmJ4Z2RrYXlua3dyd2NsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjExNDEzODgsImV4cCI6MjA3NjcxNzM4OH0.g0-1p9FLmgrEJyX7i81M0V7lc1uPshKfyfV4UOKcrY0)
 
 def get_chat_history(user_id):
     """
@@ -44,3 +44,4 @@ def add_message_to_history(user_id, sender_role, message):
         }).execute()
     except Exception as e:
         print(f"Error al guardar en Supabase: {e}")
+
